@@ -1,0 +1,38 @@
+<section>
+
+  <h2>Detalles del Viaje</h2>
+
+  <div>
+    <div>
+      <img
+        
+        src={{product.thumbnails}}
+        alt={{product.destino}}
+      />
+    </div>
+    <div>
+      <h2>{{product.destino}}</h2>
+     
+      <p>{{product.description}}</p>
+      <h3>${{product.price}}</h3>
+      <form
+        action="/carts/63d839f0ea24319f68e9e9f1/products/{{product._id}}"
+        method="post"
+      >
+        <input
+          type="submit"
+          value="Agregar al carrito"
+          
+        />
+      </form>
+    </div>
+  </div>
+  <form action="/products/delete/{{product._id}}" method="get">
+        <input
+          type="submit"
+          value="Eliminar producto"
+        
+        />
+      </form>
+
+</section>

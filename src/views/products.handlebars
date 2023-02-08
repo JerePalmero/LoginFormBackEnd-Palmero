@@ -1,0 +1,53 @@
+<section>
+  <h1 class="title">Nuestros Viajes</h1>
+
+  <div>
+    <form action="/products/category" method="post">
+      <select name="category" >
+        <option value="" selected>Todos los Viajes</option>
+        <option value="Nacionales">Nacionales</option>
+        <option value="Internacionales">Internacionales</option>
+      </select>
+      <input type="submit" value="Buscar">
+    </form>
+  </div>
+
+  <div>
+<div class="card-1">
+    {{#each products.docs}}
+    <div class="cont-card">
+      <div class="card" style="width: 18rem;">
+         <img src="{{this.thumbnails}}" alt="{{this.destino}}" />
+       <div class="card-body">
+         <h5 class="card-title">{{this.destino}}</h5>
+       </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">${{this.price}}</li>
+          <a href="/products/{{this.id}}" type="button" role="button" class="btn btn-secondary">Detalle del Viaje</a>
+        </ul>
+      </div>
+ </div>
+    {{/each}}
+  </div>
+  </div>
+
+
+<div class="pag">
+  <ul class="pagination justify-content-center">
+    <li class="page-item">
+    {{#if hasPrevPage}}
+      <a class="page-link" href="{{prevLink}}">Anterior</a>
+    {{/if}}   
+    </li>
+    <li class="page-item">
+       {{#if hasNextPage}}
+      <a class="page-link" href="{{nextLink}}">Siguiente</a>
+    {{/if}}
+     
+    </li>
+  </ul>
+</div>
+
+
+
+</section>

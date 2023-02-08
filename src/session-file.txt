@@ -1,0 +1,44 @@
+import Express from 'express'
+import session from 'express-session'
+import MongoStore from 'connect-mongo'
+
+
+const app = express()
+const uri = "mongodb+srv://ValperAdmin:KC5jUZX-UkxdV9C@valper.bscvobk.mongodb.net/?retryWrites=true&w=majority"
+
+app.use(session({
+    store: MongoStore.create({
+        mongoUrl: uri,
+        dbName: "sessions",
+        mongoOptions: {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        },
+        ttl:100
+    }),       
+    secret: '123456',
+    resave: true,
+    saveUninitialized: true
+}))
+function auth(req, res, next) {
+    if (req.session?.user) return next()
+
+    return res.status(401).send('Error de Autorizacion')
+}
+ 
+app.get('/', (req, res) => res.send('OK'))
+app.get('/login', (req, res) => {
+    const { username } = req.query
+    if (username == '') return res.send('Neesitas un usuario')
+
+    req.session.user = username
+
+    res.send ('Login exitoso')
+})
+
+app.get('/logout',(req, res) =>{
+    req.session.destroy(err => res.send(err))
+} )
+app.get('/private', auth, (req, res) => res.send('Pagina Privada'))
+
+app.listen(8080)
