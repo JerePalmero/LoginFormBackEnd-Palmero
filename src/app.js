@@ -9,8 +9,11 @@ import __dirname from "./utils.js"
 import { Server } from "socket.io"
 import mongoose from "mongoose"
 import sessionRouter from './routes/session.router.js'
+import sessionGithub from './routes/sessiongithub.js'
 import session from "express-session"
 import MongoStore from "connect-mongo"
+import passport from "passport"
+import initializePassport from "./Config/passport.config.js"
 
 const app = express()
 const server = http.createServer(app)
@@ -37,14 +40,24 @@ app.use(session({
     saveUninitialized: true
 }))
 
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(express.urlencoded({extended:true}))
+app.use(express.json())
+
+
 
 // Configuración de rutas
 
 app.use('/api/products', productsRouter)
 app.use('/session', sessionRouter)
+app.use('/api/sessiongithub', sessionGithub)
 app.use('/api/carts', cartsRouter)
 app.use('/chat', chatRouter)
 app.use('/', viewsRouter)
+
 
 
 // Conectando mongoose con Atlas e iniciando el servidor
